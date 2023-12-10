@@ -180,18 +180,31 @@ console.log(rollTheDices(18));
   Scrivi una funzione chiamata "howManyDays" che riceve una data come parametro e ritorna il numero di giorni trascorsi da tale data.
 */
 const howManyDays = function (data) {
-  const firstDate = new Date().getMilliseconds();
-  const secondDate = data.getMilliseconds();
-  console.log(secondDate);
-  const differenceOfDays = firstDate - secondDate;
-
-  return differenceOfDays * 60 * 60 * 24;
+  const firstDateFrom = new Date();
+  const secondDateTo = new Date(data);
+  const differenceOfDaysMillSec = firstDateFrom - secondDateTo;
+  const differenceOfDays = differenceOfDaysMillSec / (1000 * 60 * 60 * 24);
+  return Math.floor(differenceOfDays);
 };
-console.log(howManyDays(new Date()));
+console.log(howManyDays("2023-12-9"));
 
 /* ESERCIZIO 10
   Scrivi una funzione chiamata "isTodayMyBirthday" che deve ritornare true se oggi è il tuo compleanno, falso negli altri casi.
 */
+const isTodayMyBirthday = function (date) {
+  const today = new Date();
+  console.log(today);
+  console.log(date);
+  if (
+    today.getDate() === date.getDate() &&
+    today.getMonth() === date.getMonth()
+  ) {
+    return true;
+  } else {
+    return false;
+  }
+};
+console.log("birthday: " + isTodayMyBirthday(new Date(1995, 11, 10)));
 
 // Arrays & Oggetti
 
@@ -212,52 +225,78 @@ const deleteProp = function (obj, stringa) {
 };
 console.log(deleteProp({ name: "Alessia", age: 28, city: "Verona" }, "age"));
 
-/* ESERCIZIO 16
-  Scrivi una funzione chiamata "sumAllTheYears" che ritorna la somma di tutti gli anni in cui sono stati prodotti i film contenuti nell'array "movies" fornito.
-*/
-
-/* ESERCIZIO 17
-  Scrivi una funzione chiamata "searchByTitle" che riceve una stringa come parametro e ritorna i film nell'array "movies" fornito che la contengono nel titolo.
-*/
-
-/* ESERCIZIO 18
-  Scrivi una funzione chiamata "searchAndDivide" che riceve una stringa come parametro e ritorna un oggetto contenente due array: "match" e "unmatch".
-  "match" deve includere tutti i film dell'array "movies" fornito che contengono la stringa fornita all'interno del proprio titolo, mentre "unmatch" deve includere tutti i rimanenti.
-*/
-
-/* ESERCIZIO 19
-  Scrivi una funzione chiamata "removeIndex" che riceve un numero come parametro e ritorna l'array "movies" fornito privo dell'elemento nella posizione ricevuta come parametro.
-*/
-
 // DOM (nota: gli elementi che selezionerai non si trovano realmente nella pagina)
 
 /* ESERCIZIO 20
   Scrivi una funzione per selezionare l'elemento dotato di id "container" all'interno della pagina.
 */
+const myElement = function () {
+  return document.getElementById("container");
+};
+console.log(myElement());
 
 /* ESERCIZIO 21
   Scrivi una funzione per selezionare ogni tag <td> all'interno della pagina.
 */
+const everyTd = function () {
+  return document.querySelectorAll("td");
+};
+console.log(everyTd());
 
 /* ESERCIZIO 22
   Scrivi una funzione che, tramite un ciclo, stampa in console il testo contenuto in ogni tag <td> all'interno della pagina.
 */
+const printTextTd = function () {
+  const myArray = document.querySelectorAll("td");
+  myArray.forEach((element) => {
+    const text = element.textContent;
+    console.log(text);
+  });
+};
+console.log(printTextTd());
 
 /* ESERCIZIO 23
   Scrivi una funzione per aggiungere un background di colore rosso a ogni link all'interno della pagina.
 */
+const backgroundRed = function (link) {
+  const myLink = document.querySelectorAll("a");
+  myLink.forEach((link) => {
+    link.style.backgroundColor = "red";
+  });
+};
+console.log(backgroundRed());
 
 /* ESERCIZIO 24
   Scrivi una funzione per aggiungere un nuovo elemento alla lista non ordinata con id "myList".
 */
 
+const addItem = function () {
+  const newListItem = document.createElement("li");
+  newListItem.innerText = "ciao";
+  const myList = document.getElementById("myList");
+  myList.appendChild(newListItem);
+};
+console.log(addItem());
+
 /* ESERCIZIO 25
   Scrivi una funzione per svuotare la lista non ordinata con id "myList".
 */
+const emptyList = function () {
+  const emptyThisList = document.getElementById("myList");
+  emptyThisList.innerText = "";
+};
+console.log(emptyList());
 
 /* ESERCIZIO 26
   Scrivi una funzione per aggiungere ad ogni tag <tr> la classe CSS "test"
 */
+const addAClass = function () {
+  const addHere = document.querySelectorAll("tr");
+  addHere.forEach((element) => {
+    element.classList.add("test");
+  });
+};
+console.log(addAClass());
 
 // [EXTRA] JS Avanzato
 
@@ -272,6 +311,19 @@ console.log(deleteProp({ name: "Alessia", age: 28, city: "Verona" }, "age"));
   ***
 
 */
+
+const halfTree = function (number) {
+  for (let i = 0; i < number; i++) {
+    let stelline = 0;
+    let stellineDaStampare = "";
+    while (stelline < i) {
+      stellineDaStampare += "*";
+      stelline++;
+    }
+    console.log(stellineDaStampare);
+  }
+};
+halfTree(4);
 
 /* ESERCIZIO 28
   Crea una funzione chiamata "tree" che riceve un numero come parametro e costruisce un albero di "*" (asterischi) dell'altezza fornita.
@@ -459,3 +511,52 @@ const onlyInLastMillennium = (array) => {
   });
 };
 console.log(onlyInLastMillennium(movies));
+
+/* ESERCIZIO 16
+  Scrivi una funzione chiamata "sumAllTheYears" che ritorna la somma di tutti gli anni in cui sono stati prodotti i film contenuti nell'array "movies" fornito.
+*/
+const sumAllTheYears = (array) => {
+  return array.reduce((acc, curr) => acc + Number(curr.Year), 0);
+};
+console.log(sumAllTheYears(movies));
+
+/* ESERCIZIO 17
+  Scrivi una funzione chiamata "searchByTitle" che riceve una stringa come parametro e ritorna i film nell'array "movies" fornito che la contengono nel titolo.
+*/
+
+const searchByTitle = (stringa) => {
+  const myMovie = movies.filter((movie) => movie.Title.includes(stringa));
+  return myMovie;
+};
+console.log(searchByTitle("Lord"));
+
+/* ESERCIZIO 18
+  Scrivi una funzione chiamata "searchAndDivide" che riceve una stringa come parametro e ritorna un oggetto contenente due array: "match" e "unmatch".
+  "match" deve includere tutti i film dell'array "movies" fornito che contengono la stringa fornita all'interno del proprio titolo, mentre "unmatch" deve includere tutti i rimanenti.
+*/
+const searchAndDivide = function (stringa) {
+  const myObjArrArr = {
+    match: [],
+    unmatch: [],
+  };
+
+  const myMatch = movies.filter((movie) => movie.Title.includes(stringa));
+
+  myObjArrArr.match.push(...myMatch);
+  let noMatch = movies.filter((movie) => !myMatch.includes(movie));
+  myObjArrArr.unmatch.push(...noMatch);
+
+  return myObjArrArr;
+};
+console.log(searchAndDivide("Avengers"));
+
+/* ESERCIZIO 19
+  Scrivi una funzione chiamata "removeIndex" che riceve un numero come parametro e ritorna l'array "movies" fornito privo dell'elemento nella posizione ricevuta come parametro.
+*/
+
+const removeIndex = function (number) {
+  console.log(movies[number]);
+  movies.splice(number - 1, 1);
+  return movies;
+};
+console.log(removeIndex(1));
